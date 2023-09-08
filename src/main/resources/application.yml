@@ -1,0 +1,43 @@
+app:
+  currency: IDR
+  timezone: Asia/Jakarta
+  welcome-text: Hello semuanya ini pertama latihan saya, Didik irawan!
+cloud:
+  cloud-key: ${CLOUD_KEY}
+server:
+  port: 8081
+  
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - development 
+       
+server:
+  port: 8082
+  
+app:
+  welcome-text: Hallo ini didik, ini server development
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - test
+  
+server:
+  port: 8090
+  
+ 
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - prod
+  
+server:
+  port: 8083
