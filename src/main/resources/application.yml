@@ -1,3 +1,7 @@
+logging:
+  level:
+    '[com.practicedidik.catalog]': TRACE 
+
 app:
   currency: IDR
   timezone: Asia/Jakarta
