@@ -1,41 +1,60 @@
 package com.practicedidik.catalog.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.practicedidik.catalog.domain.Author;
+import com.practicedidik.catalog.domain.Book;
+import com.practicedidik.catalog.repository.BookRepository;
+import com.practicedidik.catalog.repository.impl.BookRepositoryImpl;
+
+@ComponentScan(basePackages = {"com.latihandidik"})
 @Configuration
-@ConfigurationProperties(prefix = "app")
 public class AppConfig {
-
-	private String welcomeText;
 	
-	private String timezone;
-	
-	private String currency;
-
-	public String getWelcomeText() {
-		return welcomeText;
-	}
-
-	public void setWelcomeText(String welcomeText) {
-		this.welcomeText = welcomeText;
-	}
-
-	public String getTimezone() {
-		return timezone;
-	}
-
-	public void setTimezone(String timezone) {
-		this.timezone = timezone;
-	}
-
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
+	@Bean
+	public Author author() {
+		return new Author(1L, "Pramoedya ananta toer", -16401L);
 	}
 	
+	@Bean
+	public Book book1(Author author) {
+		Book book = new Book();
+		book.setId(1L);
+		book.setTitle("Buku1");
+		book.setDescription("ini tes buku1");
+		book.setAuthor(author);
+		return book;
+	}
 	
+	@Bean
+	public Book book2(Author author) {
+		Book book = new Book();
+		book.setId(2L);
+		book.setTitle("Buku2");
+		book.setDescription("ini tes buku2");
+		book.setAuthor(author);
+		return book;
+	}
+	
+	@Bean
+	public BookRepository bookRepository(Book book1, Book book2) {
+		Map<Long, Book> bookMap = new HashMap<Long, Book>();
+		bookMap.put(1L, book1);
+		bookMap.put(2L, book2);
+		
+		BookRepositoryImpl bookRepositoryImpl = new BookRepositoryImpl();
+		bookRepositoryImpl.setBookMap(bookMap);
+		
+		return bookRepositoryImpl;
+	}
+	
+//	@Bean
+//	public BookService bookService(BookRepository bookRepository) {
+//		return new BookServiceImpl(bookRepository);
+//	}
 }
